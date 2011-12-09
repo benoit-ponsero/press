@@ -1,5 +1,6 @@
 package press;
 
+import java.io.StringReader;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,6 +18,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import play.Play;
 
 import play.PlayPlugin;
 import play.cache.Cache;
@@ -400,6 +402,11 @@ public abstract class Compressor extends PlayPlugin {
         BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(
                 fileInfo.file), "UTF-8"));
 
+        if (fileName.endsWith(".css")) {
+
+            in = handleRelativeimages(in, fileInfo.file);
+        }
+
         // If the file should be compressed
         if (fileInfo.compress) {
             // Invoke the compressor
@@ -413,6 +420,66 @@ public abstract class Compressor extends PlayPlugin {
         }
     }
 
+    private static BufferedReader handleRelativeimages(BufferedReader in, File file) throws Exception {
+
+        String filePath = file.getAbsolutePath();
+        filePath = filePath.substring(filePath.lastIndexOf(PluginConfig.addTrailingSlash(PluginConfig.css.srcDir)));
+
+        StringBuilder sb = new StringBuilder();
+        int c;
+        while ((c = in.read()) != -1) {
+            sb.append((char) c);
+        }
+
+        String css = sb.toString();
+
+        
+        String[] patterns = {"(url\\s*\\(\\s*[\"']?)(.*?)([\"']?\\s*\\))"
+                                , "(src\\s*=\\s*[\"']?)(.*?)([\"']?\\s*[,\\)])"};
+        
+        for (int n=0;n<patterns.length;n++){
+        
+            StringBuffer resultString = new StringBuffer();
+            
+            Pattern p = Pattern.compile(patterns[n]);
+            Matcher m = p.matcher(css);
+            while (m.find()) {
+
+                String url = m.group(2);
+
+                if (!url.startsWith("/")
+                        && !url.startsWith("http://")
+                        && !url.startsWith("https://")) {
+
+                    String newurl = repath(filePath, url);
+
+                    m.appendReplacement(resultString, m.group(1) + newurl + m.group(3));
+                }
+            }
+            m.appendTail(resultString);
+            css = resultString.toString();
+        }
+
+        return new BufferedReader(new StringReader(css));
+    }
+
+    private static String repath(String cssFileUrl, String url) {
+
+        String[] parts = url.split("\\.\\./");
+        int len = parts.length;
+
+
+        String finalurl = "";
+        String[] urlparts = cssFileUrl.split("/");
+        for (int n = 0; n < urlparts.length - len; n++) {
+
+            finalurl += urlparts[n] + "/";
+        }
+
+        finalurl += parts[len - 1];
+
+        return finalurl;
+    }
     /**
      * Get the content of the response sent to the client as a String
      */
