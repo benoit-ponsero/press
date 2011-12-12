@@ -64,7 +64,7 @@ public class Plugin extends PlayPlugin {
         checkCSSFileExists(fileName);
         CSSCompressor compressor = cssCompressor.get();
         String src = null;
-        if (performCompression()) {
+        if (performCompression() || fileName.endsWith(".less")) {
             String requestKey = compressor.compressedSingleFileUrl(fileName);
             if (PluginConfig.isInMemoryStorage()) {
                 src = getSingleCompressedCSSUrl(requestKey);
@@ -112,6 +112,10 @@ public class Plugin extends PlayPlugin {
 
             if (performCompression()) {
                 result += compressor.add(fileName, compress) + "\n";
+            } else if (fileName.endsWith(".less")) {
+
+                result += getLinkTag(compressor.compressedSingleFileUrl(fileName));
+
             } else {
                 result += getLinkTag(baseUrl + fileName);
             }
