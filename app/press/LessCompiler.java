@@ -43,9 +43,9 @@ public class LessCompiler {
     public BufferedReader compile(BufferedReader in) throws IOException {
         
         StringBuilder sb = new StringBuilder();
-        int c;
-        while ((c = in.read()) != -1) {
-            sb.append((char) c);
+        String line;
+        while ((line = in.readLine()) != null) {
+            sb.append(line);
         }
 
         String css = compile(sb.toString());
