@@ -412,7 +412,7 @@ public abstract class Compressor extends PlayPlugin {
             
             LessCompiler lessCompiler = new LessCompiler(Play.mode == Play.Mode.DEV);
             String css = lessCompiler.compile(fileInfo.file);
-
+            css = css.replaceAll("\\\\n", "");
             in = new BufferedReader(new StringReader(css));
         }
         else {

@@ -245,8 +245,7 @@ public class Plugin extends PlayPlugin {
      */
     private static String getScriptTag(String src) {
         return "<script src=\"" + press.PluginConfig.contentHostingDomain + src
-                + "\" type=\"text/javascript\" language=\"javascript\" charset=\"utf-8\">"
-                + "</script>\n";
+                + "\" type=\"text/javascript\" language=\"javascript\" charset=\"utf-8\"></script>\n";
     }
 
     /**
