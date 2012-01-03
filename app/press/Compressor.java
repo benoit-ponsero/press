@@ -406,13 +406,19 @@ public abstract class Compressor extends PlayPlugin {
             throws Exception {
 
         String fileName = fileInfo.file.getName();
-        BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(
-                fileInfo.file), "UTF-8"));
+        BufferedReader in;
 
         if (fileName.endsWith(".less")) {
             
             LessCompiler lessCompiler = new LessCompiler(Play.mode == Play.Mode.DEV);
-            in = lessCompiler.compile(in);
+            String css = lessCompiler.compile(fileInfo.file);
+
+            in = new BufferedReader(new StringReader(css));
+        }
+        else {
+            
+            in = new BufferedReader(new InputStreamReader(new FileInputStream(
+                fileInfo.file), "UTF-8"));
         }
         
         if (fileName.endsWith(".css") || fileName.endsWith(".less")) {
