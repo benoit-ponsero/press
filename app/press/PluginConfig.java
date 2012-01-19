@@ -19,7 +19,7 @@ public class PluginConfig {
         public static final boolean cacheClearEnabled = (Play.mode == Mode.DEV);
 
         // Whether to use the file system or memory to store compressed files
-        public static final boolean inMemoryStorage = false;
+        public static final boolean inMemoryStorage = true;
 
         // The amount of time that a compression key is stored for.
         // This only needs to be as long as the time between when the action
@@ -45,8 +45,7 @@ public class PluginConfig {
             public static final String srcDir = "/public/javascripts/";
 
             // The directory where compressed javascript files are written to
-            //public static final String compressedDir = "/public/javascripts/press/";
-            public static final String compressedDir = "/tmp/javascripts/press/";
+            public static final String compressedDir = "/public/javascripts/press/";
 
             // Options for YUI JS compression
             public static final int lineBreak = -1;
@@ -61,8 +60,7 @@ public class PluginConfig {
             public static final String srcDir = "/public/stylesheets/";
 
             // The directory where compressed css files are written to
-            //public static final String compressedDir = "/public/stylesheets/press/";
-            public static final String compressedDir = "/tmp/stylesheets/press/";
+            public static final String compressedDir = "/public/stylesheets/press/";
 
             // Options for YUI CSS compression
             public static final int lineBreak = -1;
