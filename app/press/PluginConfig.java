@@ -45,7 +45,8 @@ public class PluginConfig {
             public static final String srcDir = "/public/javascripts/";
 
             // The directory where compressed javascript files are written to
-            public static final String compressedDir = "/public/javascripts/press/";
+            //public static final String compressedDir = "/public/javascripts/press/";
+            public static final String compressedDir = "/tmp/javascripts/press/";
 
             // Options for YUI JS compression
             public static final int lineBreak = -1;
@@ -60,7 +61,8 @@ public class PluginConfig {
             public static final String srcDir = "/public/stylesheets/";
 
             // The directory where compressed css files are written to
-            public static final String compressedDir = "/public/stylesheets/press/";
+            //public static final String compressedDir = "/public/stylesheets/press/";
+            public static final String compressedDir = "/tmp/stylesheets/press/";
 
             // Options for YUI CSS compression
             public static final int lineBreak = -1;
