@@ -42,6 +42,7 @@ public class LessCompiler {
         String css = Cache.get(cacheKey, String.class);
         if(css == null) {
             css = compile(lessFile);
+            css = css.replaceAll("\\\\n", "");
             Cache.set(cacheKey, css);
         }
         return css;
@@ -92,7 +93,9 @@ public class LessCompiler {
 
     protected String compile(File lessFile) {
         try {
-            return lessEngine.compile(lessFile);
+            String css = lessEngine.compile(lessFile);
+            css = css.replaceAll("\\\\n", "");
+            return css;
         } catch (LessException e) {
             return handleException(lessFile, e);
         }
@@ -100,7 +103,9 @@ public class LessCompiler {
 
     public String compile(String lessContent) {
         try {
-            return lessEngine.compile(lessContent);
+            String css = lessEngine.compile(lessContent);
+            css = css.replaceAll("\\\\n", "");
+            return css;
         } catch (LessException e) {
             return handleException(null, e);
         }
@@ -115,6 +120,8 @@ public class LessCompiler {
         }
 
         String css = compile(sb.toString());
+        css = css.replaceAll("\\\\n", "");
+            
         
         return new BufferedReader(new StringReader(css));
     }

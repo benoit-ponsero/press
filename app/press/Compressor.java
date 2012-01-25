@@ -101,14 +101,14 @@ public abstract class Compressor extends PlayPlugin {
 
         int lastDot = fileName.lastIndexOf('.');
         String compressedFileName = fileName.substring(0, lastDot) + ".min";
-        if (fileName.endsWith(".less")){
+        /*if (fileName.endsWith(".less")){
             
             compressedFileName += ".less.css";
         }
         else {
-            
+        */    
             compressedFileName += fileName.substring(lastDot);
-        }
+        //}
 
         // The process for compressing a single file is the same as for a group
         // of files, the list just has a single entry
@@ -412,7 +412,6 @@ public abstract class Compressor extends PlayPlugin {
             
             LessCompiler lessCompiler = new LessCompiler(Play.mode == Play.Mode.DEV);
             String css = lessCompiler.compile(fileInfo.file);
-            css = css.replaceAll("\\\\n", "");
             in = new BufferedReader(new StringReader(css));
         }
         else {
